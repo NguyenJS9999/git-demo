@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <p>Trang edit hiển thị các dữ bảng dữ liệu nhé</p>
+     
+    <p><table id="table" border="1" cellpadding="5" cellspacing="0">
+        <tr>
+            <td>username</td>
+            <td>password</td>
+            <td>email</td>
+            <td>id</td>
+            <td>Sửa</td>
+            <td>Xóa</td>
+        </tr>
+        
+
+    </table></p>
+
+
+
+</body>
+<script>
+    $.ajax({
+        url: "/project01/inratatca",
+        type: "GET",
+
+    }).then(function (data) {
+        getValue(data); // ?
+
+    });
+//khi bấm click vào nút này ...
+function NguyeneditData(id) {
+    console.log(id);
+    $('.span'+id).hide()
+    $(".input-value"+id).show();
+    $(`#save${data[i]._id}`).show();
+    $(`#sua${data[i]._id}`).hide()
+    var id = id;
+    var username = $("#input-username"+id).val();
+    var password = $("#input-password"+id).val();
+    var email = $("#input-email"+id).val();
+    console.log(email,password,username);
+};
+
+function NguyensaveData(){
+
+}
+
+function NguyendeleteData(id) {
+    console.log(id);    
+    $.ajax({
+        url: "/project01/XoaUserTheoId",
+        type: "delete",
+        data: {
+            id: id
+        }
+    }).then(function(data){
+        $(".tr-data").html("")
+        loadData()
+    })
+}
+
+function loadData(){
+    $.ajax({
+        url: "/project01/inratatca",
+        type: "GET",
+
+    }).then(function (data) {
+        getValue(data); // ?
+
+    });
+}
+
+function getValue(data) {
+    console.log(data)
+    
+    for (var i=0; i < data.length; i++ ) {
+            console.log(data[i])
+        
+    var template = ` 
+            <tr class="tr-data">
+                <div data-id = ${data[i]._id} >
+                    
+                        <td data-id = ${data[i]._id} >
+
+                            <span class="span${data[i]._id}" >${data[i].username}</span>
+                            <input id="input-username${data[i]._id}"  class="input-value${data[i]._id}" type='text' value="${data[i].username}"/>
+                            
+                        </td>
+
+                        <td data-id = ${data[i]._id} >
+                            <span class="span${data[i]._id}" >${data[i].password}</span>
+
+                            <input id="input-password${data[i]._id}"  class="input-value${data[i]._id}"    type="text"   value="${data[i].password}" >
+        
+                        </td>
+                        
+                        <td data-id = ${data[i]._id} >
+                            <span class="span${data[i]._id}" >${data[i].email}</span>
+                            <input  id="input-email${data[i]._id}"   class="input-value${data[i]._id}" type="text" value="${data[i].email}" >
+        
+                        </td>
+
+                        <td>${data[i]._id}</td>
+
+                </div>
+
+                <td> <button type="button" id="sua${data[i]._id}" onclick="NguyeneditData('${data[i]._id}')" > Sửa </button> </td>
+                <td> <button type="button" id="save${data[i]._id}" onclick="NguyensaveData('${data[i]._id}')" > Save</button> </td>
+
+                <td> <button type="button" id="xoa${data[i]._id}" onclick="NguyendeleteData('${data[i]._id}')">Xóa</button> </td>
+
+            </tr>
+
+        `
+        $(`#table`).append(template);
+        $(`.input-value${data[i]._id}`).hide();
+        $(`#save${data[i]._id}`).hide();
+    }
+
+}
+
+</script>
+
+</html>

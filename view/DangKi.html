@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng kí mới</title>
+
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+    <p>Đăng kí tài khoản</p>
+    <!-- chuyển đến api login xlý logic  /project01/DangNhap -->
+    <form action=""> 
+        <p>UserName: </p>
+        <input type="text" name="username" id="ten" value="" >
+
+        <p>Password: </p>
+        <input type="text" name="password" id="matkhau" value="" >
+
+        <p>Email: </p>
+        <input type="text" name="email" id="email" value="" >
+
+        <p><button type="button" id="btn" >Đăng kí</button></p>
+
+    </form>
+
+
+</body>
+
+<script>
+    $("#btn").click(function() {
+        var username = $("#ten").val();
+        var password = $("#matkhau").val();
+        var email= $("#email").val();
+
+        $.ajax({
+            url: "/project01/ThemMoi",
+            type: "post",
+            data: {
+                username : username,
+                password : password,
+                email : email,
+            }
+        }).then(function (data) {
+            alert(data)
+        })
+
+    })
+
+
+
+</script>
+
+</html>
